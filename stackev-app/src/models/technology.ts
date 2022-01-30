@@ -8,6 +8,8 @@ interface TechnologyAttribute {
   maturity: number;
 }
 
+// name => skema encoding
+
 class Technology {
   name: string;
   side: TechnologySide;
