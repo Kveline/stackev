@@ -1,8 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { frontend } from "./dataset/technologyList";
 
 function App() {
+  console.log(Object.values(frontend));
+
   return (
     <div className="App">
       <header className="App-header">

@@ -2,7 +2,7 @@ type TechnologySide = "Frontend" | "Backend" | "DBMS";
 type Binary = 1 | 0;
 
 interface TechnologyAttribute {
-  Skalabilitas: number;
+  skalabilitas: number;
   toolsSupport: number;
   communitySize: number;
   costLevel: number;
