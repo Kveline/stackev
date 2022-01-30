@@ -1,28 +1,33 @@
 import "./App.css";
-import { frontend, backend, dbms } from "./dataset/technologyList";
+import Individual from "./models/individual";
 
 function App() {
-  console.log(Object.values(frontend));
-
   // create individual
-  const createIndividual = (length: number): number[] => {
-    let individual = new Array(length)
+  const createIndividual = (length: number): Individual => {
+    let encoding = new Array(length)
       .fill(1)
       .map(() => Math.round(Math.random()));
+    // default fitness
+    let fitnessValue = 0;
+
+    let individual = new Individual(encoding, fitnessValue);
 
     return individual;
   };
 
-  // create population
-  const createPopulation = (length: number): object[] => {
+  console.log(createIndividual(10));
+
+  //create population
+  const createPopulation = (length: number): Individual[] => {
     let population = new Array(length).fill(1).map(() => createIndividual(9));
     return population;
   };
 
-  let x: any = createPopulation(50);
-  console.log(x);
+  console.log(createPopulation(50));
 
-  return <div className="App">{createPopulation(50)}</div>;
+  //fitness function
+
+  return <div className="App"></div>;
 }
 
 export default App;
