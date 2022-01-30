@@ -1,10 +1,21 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { frontend } from "./dataset/technologyList";
+import { frontend, backend, dbms } from "./dataset/technologyList";
 
 function App() {
   console.log(Object.values(frontend));
+
+  // bikin individu
+  const createIndividual = (length: number): number[] => {
+    let individual = new Array(length)
+      .fill(1)
+      .map(() => Math.round(Math.random()));
+
+    return individual;
+  };
+
+  console.log(createIndividual(9));
 
   return (
     <div className="App">
