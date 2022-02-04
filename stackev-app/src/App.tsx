@@ -66,9 +66,14 @@ function App() {
     return individu;
   };
 
-  console.log(fitnessValue(individu, DUMMY_INPUT.priorityScore));
+  let fitnessPopulation = population.map((individual) =>
+    fitnessValue(individual, DUMMY_INPUT.priorityScore)
+  );
 
-  console.log(DUMMY_INPUT);
+  // selection, roultte wheel bisa terpilih lebih dari 1x
+  // https://stackoverflow.com/questions/50739124/random-number-with-percentage
+
+  console.log(fitnessPopulation);
 
   return <div className="App"></div>;
 }
