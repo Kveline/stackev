@@ -1,5 +1,5 @@
 interface TechnologyAttribute {
-  Skalabilitas: number;
+  skalabilitas: number;
   toolsSupport: number;
   communitySize: number;
   costLevel: number;
