@@ -80,8 +80,7 @@ function App() {
     fitnessValue(individual, DUMMY_INPUT.priorityScore)
   );
 
-  // selection, roultte wheel bisa terpilih lebih dari 1x
-  // https://stackoverflow.com/questions/50739124/random-number-with-percentage
+  // selection, roultte wheel
   const selection = (
     population: Individual[],
     numberOfSelected: number
@@ -94,8 +93,32 @@ function App() {
     return selectedIndividuals;
   };
 
-  console.log(fitnessPopulation);
-  console.log(selection(fitnessPopulation, 5));
+  // single point crossover, mainin array.slice
+  const crossover = (individuals: Individual[]): Individual[] => {
+    // get parent index
+    let indexParent1 = Math.floor(Math.random() * individuals.length);
+    let indexParent2;
+    do {
+      indexParent2 = Math.floor(Math.random() * individuals.length);
+    } while (indexParent2 === indexParent1);
+    // get each parent
+    let parent1 = individuals[indexParent1];
+    let parent2 = individuals[indexParent2];
+    // random point (single point)
+    let point = Math.floor(Math.random() * parent1.encoding.length);
+    // offspring gene
+    let leftGene = parent1.encoding.slice(0, point);
+    let rightGene = parent2.encoding.slice(point, parent2.encoding.length);
+    // offspring gene
+    let offspringGene = leftGene.concat(rightGene);
+
+    console.log(leftGene, rightGene);
+    console.log(offspringGene);
+    return individuals;
+  };
+
+  let selectionResult = selection(fitnessPopulation, 5);
+  crossover(selectionResult);
 
   return <div className="App"></div>;
 }
