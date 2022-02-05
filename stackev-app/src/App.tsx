@@ -76,9 +76,10 @@ function App() {
   };
 
   // add fitness value to a population
-  let fitnessPopulation = population.map((individual) =>
-    fitnessValue(individual, DUMMY_INPUT.priorityScore)
-  );
+  let fitnessPopulation = (population: Individual[]) =>
+    population.map((individual) =>
+      fitnessValue(individual, DUMMY_INPUT.priorityScore)
+    );
 
   // selection, roultte wheel
   const selection = (
@@ -94,31 +95,57 @@ function App() {
   };
 
   // single point crossover, mainin array.slice
-  const crossover = (individuals: Individual[]): Individual[] => {
-    // get parent index
-    let indexParent1 = Math.floor(Math.random() * individuals.length);
-    let indexParent2;
-    do {
-      indexParent2 = Math.floor(Math.random() * individuals.length);
-    } while (indexParent2 === indexParent1);
-    // get each parent
-    let parent1 = individuals[indexParent1];
-    let parent2 = individuals[indexParent2];
-    // random point (single point)
-    let point = Math.floor(Math.random() * parent1.encoding.length);
-    // offspring gene
-    let leftGene = parent1.encoding.slice(0, point);
-    let rightGene = parent2.encoding.slice(point, parent2.encoding.length);
-    // offspring gene
-    let offspringGene = leftGene.concat(rightGene);
+  const crossover = (
+    individuals: Individual[],
+    pc: number,
+    totalPopulation: number
+  ): Individual[] => {
+    let totalOffspring = pc * totalPopulation;
 
-    console.log(leftGene, rightGene);
-    console.log(offspringGene);
-    return individuals;
+    let listOffspring: Individual[] = [];
+
+    while (listOffspring.length < totalOffspring) {
+      // get parent index
+      let indexParent1 = Math.floor(Math.random() * individuals.length);
+      let indexParent2;
+      do {
+        indexParent2 = Math.floor(Math.random() * individuals.length);
+      } while (indexParent2 === indexParent1);
+
+      // get each parent
+      let parent1 = individuals[indexParent1];
+      let parent2 = individuals[indexParent2];
+      // random point (single point)
+      let point = Math.floor(Math.random() * parent1.encoding.length);
+
+      // offspring gene
+      let leftGene = parent1.encoding.slice(0, point);
+      let rightGene = parent2.encoding.slice(point, parent2.encoding.length);
+
+      // offspring gene
+      let offspring1Gene = leftGene.concat(rightGene);
+      let offspring2Gene = rightGene.concat(leftGene);
+
+      // offsping object
+      let offspring1 = new Individual(offspring1Gene, 0);
+      let offspring2 = new Individual(offspring2Gene, 0);
+
+      // push it to list offspring
+      listOffspring.push(offspring1, offspring2);
+
+      //  get its fitness
+      listOffspring = fitnessPopulation(listOffspring);
+    }
+    return listOffspring;
   };
 
-  let selectionResult = selection(fitnessPopulation, 5);
-  crossover(selectionResult);
+  let populationFitness = fitnessPopulation(population);
+  let selectionResult = selection(populationFitness, 5);
+
+  let crossoverResult = crossover(selectionResult, 0.5, 10);
+  let currentResult = selectionResult.concat(crossoverResult);
+
+  console.log(currentResult);
 
   return <div className="App"></div>;
 }
