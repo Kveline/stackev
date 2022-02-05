@@ -12,6 +12,14 @@ var arraysMatch = (arr1: any[], arr2: any[]): boolean => {
   return true;
 };
 
+const attribute = {
+  skalabilitas: 0,
+  toolsSupport: 0,
+  communitySize: 0,
+  costLevel: 0,
+  maturity: 0,
+};
+
 class Individual {
   encoding: number[];
   fitness: number;
@@ -31,7 +39,7 @@ class Individual {
         return listFrontEnd[key];
       }
     }
-    return {};
+    return attribute;
   }
 
   get backend() {
@@ -44,7 +52,7 @@ class Individual {
         return listBackend[key];
       }
     }
-    return {};
+    return attribute;
   }
 
   get dbms() {
@@ -57,7 +65,7 @@ class Individual {
         return listDbms[key];
       }
     }
-    return {};
+    return attribute;
   }
 }
 
