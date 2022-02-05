@@ -1,6 +1,7 @@
 import "./App.css";
 import Individual from "./models/individual";
 import Priority from "./models/priority";
+let rouletteWheelSelection = require("roulette-wheel-selection");
 
 // dummy input user
 const DUMMY_INPUT = new Priority({
@@ -30,7 +31,7 @@ function App() {
   };
 
   let individu = createIndividual(9);
-  let population = createPopulation(3);
+  let population = createPopulation(10);
 
   //fitness function
   const fitnessValue = (individu: any, priority: any): Individual => {
@@ -81,16 +82,20 @@ function App() {
 
   // selection, roultte wheel bisa terpilih lebih dari 1x
   // https://stackoverflow.com/questions/50739124/random-number-with-percentage
-  const selection = (population: Individual[]): any => {
-    // max fitness
-    let maxFitness = Math.max(
-      ...population.map((individu) => individu.fitness),
-      0
-    );
-    console.log(maxFitness);
+  const selection = (
+    population: Individual[],
+    numberOfSelected: number
+  ): Individual[] => {
+    let selectedIndividuals = [];
+
+    for (let i = 0; i < numberOfSelected; i++) {
+      selectedIndividuals.push(rouletteWheelSelection(population, "fitness"));
+    }
+    return selectedIndividuals;
   };
 
-  selection(fitnessPopulation);
+  console.log(fitnessPopulation);
+  console.log(selection(fitnessPopulation, 5));
 
   return <div className="App"></div>;
 }

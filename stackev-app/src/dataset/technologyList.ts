@@ -181,7 +181,7 @@ export const dbms = {
     maturity: 1,
   }),
 
-  redis: new Technology([1, 1, 0], "Redis", "DBMS", {
+  redis: new Technology([1, 0, 1], "Redis", "DBMS", {
     skalabilitas: 2,
     toolsSupport: 2,
     communitySize: 2,
