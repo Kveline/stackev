@@ -1,4 +1,5 @@
 import { frontend, backend, dbms } from "../dataset/technologyList";
+import Technology from "./technology";
 
 var arraysMatch = (arr1: any[], arr2: any[]): boolean => {
   // Check if the arrays are the same length
@@ -12,14 +13,6 @@ var arraysMatch = (arr1: any[], arr2: any[]): boolean => {
   return true;
 };
 
-const attribute = {
-  skalabilitas: 0,
-  toolsSupport: 0,
-  communitySize: 0,
-  costLevel: 0,
-  maturity: 0,
-};
-
 class Individual {
   encoding: number[];
   fitness: number;
@@ -29,43 +22,37 @@ class Individual {
     this.fitness = fitnessValue;
   }
 
-  get frontend() {
-    let key: keyof object[];
+  get frontend(): Technology {
     let listFrontEnd = Object.values(frontend);
     let encodingFrontend: number[] = this.encoding.slice(0, 3);
 
-    for (key in listFrontEnd) {
-      if (arraysMatch(listFrontEnd[key].encoding, encodingFrontend)) {
-        return listFrontEnd[key];
-      }
-    }
-    return attribute;
+    let tech = listFrontEnd.filter((frontend) =>
+      arraysMatch(frontend.encoding, encodingFrontend)
+    );
+
+    return tech[0];
   }
 
-  get backend() {
-    let key: keyof object[];
+  get backend(): Technology {
     let listBackend = Object.values(backend);
     let encodingBackend: number[] = this.encoding.slice(3, 6);
 
-    for (key in listBackend) {
-      if (arraysMatch(listBackend[key].encoding, encodingBackend)) {
-        return listBackend[key];
-      }
-    }
-    return attribute;
+    let tech = listBackend.filter((backend) =>
+      arraysMatch(backend.encoding, encodingBackend)
+    );
+
+    return tech[0];
   }
 
   get dbms() {
-    let key: keyof object[];
     let listDbms = Object.values(dbms);
     let encodingDbms: number[] = this.encoding.slice(6, 9);
 
-    for (key in listDbms) {
-      if (arraysMatch(listDbms[key].encoding, encodingDbms)) {
-        return listDbms[key];
-      }
-    }
-    return attribute;
+    let tech = listDbms.filter((dbms) =>
+      arraysMatch(dbms.encoding, encodingDbms)
+    );
+
+    return tech[0];
   }
 }
 

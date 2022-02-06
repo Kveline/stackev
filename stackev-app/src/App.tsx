@@ -161,9 +161,6 @@ function App() {
         } else {
           population[index].encoding[point] = 1;
         }
-
-        console.log(index, point);
-        console.log("Encoding : ", population[index]);
       }
     }
     return fitnessPopulation(population);
