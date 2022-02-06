@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import Individual from "./models/individual";
 import Priority from "./models/priority";
@@ -15,9 +16,7 @@ const DUMMY_INPUT = new Priority({
 function App() {
   // create individual
   const createIndividual = (length: number): Individual => {
-    let encoding = new Array(length)
-      .fill(1)
-      .map(() => Math.round(Math.random()));
+    let encoding = new Array(length).fill(1);
     // default fitness
     let fitnessValue = 0;
     let individual = new Individual(encoding, fitnessValue);
@@ -31,7 +30,7 @@ function App() {
   };
 
   let individu = createIndividual(9);
-  let population = createPopulation(10);
+  let firstPopulation = createPopulation(2);
 
   //fitness function
   const fitnessValue = (individu: any, priority: any): Individual => {
@@ -96,25 +95,25 @@ function App() {
 
   // single point crossover, mainin array.slice
   const crossover = (
-    individuals: Individual[],
-    pc: number,
+    population: Individual[],
+    probabilityCrossover: number,
     totalPopulation: number
   ): Individual[] => {
-    let totalOffspring = pc * totalPopulation;
+    let totalOffspring = probabilityCrossover * totalPopulation;
 
     let listOffspring: Individual[] = [];
 
     while (listOffspring.length < totalOffspring) {
       // get parent index
-      let indexParent1 = Math.floor(Math.random() * individuals.length);
+      let indexParent1 = Math.floor(Math.random() * population.length);
       let indexParent2;
       do {
-        indexParent2 = Math.floor(Math.random() * individuals.length);
+        indexParent2 = Math.floor(Math.random() * population.length);
       } while (indexParent2 === indexParent1);
 
       // get each parent
-      let parent1 = individuals[indexParent1];
-      let parent2 = individuals[indexParent2];
+      let parent1 = population[indexParent1];
+      let parent2 = population[indexParent2];
       // random point (single point)
       let point = Math.floor(Math.random() * parent1.encoding.length);
 
@@ -136,16 +135,48 @@ function App() {
       //  get its fitness
       listOffspring = fitnessPopulation(listOffspring);
     }
-    return listOffspring;
+    return population.concat(listOffspring);
   };
 
-  let populationFitness = fitnessPopulation(population);
-  let selectionResult = selection(populationFitness, 5);
+  const getRandomArbitrary = (min: number, max: number) => {
+    return Math.random() * (max - min) + min;
+  };
 
-  let crossoverResult = crossover(selectionResult, 0.5, 10);
-  let currentResult = selectionResult.concat(crossoverResult);
+  // flip mutation
+  const mutation = (
+    population: Individual[],
+    probabilityMutation: number
+  ): Individual[] => {
+    let point;
+    for (let index in population) {
+      let chance = getRandomArbitrary(0, 1);
+      if (chance < probabilityMutation) {
+        // random flip point
+        point = Math.floor(Math.random() * population[index].encoding.length);
+        //flipping;
+        if (population[index].encoding[point] === 1) {
+          population[index].encoding[point] = 0;
+        } else {
+          population[index].encoding[point] = 1;
+        }
 
-  console.log(currentResult);
+        console.log(index, point);
+        console.log("Encoding : ", population[index]);
+      }
+    }
+    return population;
+  };
+
+  // mencari nilai fitness
+  let populationFitness = fitnessPopulation(firstPopulation);
+  // melakukan seleksi
+  let selectionResult = selection(populationFitness, 2);
+
+  // melakukan crossover
+  let crossoverResult = crossover(selectionResult, 0.5, 1);
+  // populasi setelah crossover
+  let mutationResult = mutation(crossoverResult, 0.2);
+  console.log(mutationResult);
 
   return <div className="App"></div>;
 }
