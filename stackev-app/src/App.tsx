@@ -16,7 +16,9 @@ const DUMMY_INPUT = new Priority({
 function App() {
   // create individual
   const createIndividual = (length: number): Individual => {
-    let encoding = new Array(length).fill(1);
+    let encoding = new Array(length)
+      .fill(1)
+      .map(() => Math.round(Math.random()));
     // default fitness
     let fitnessValue = 0;
     let individual = new Individual(encoding, fitnessValue);
@@ -30,7 +32,7 @@ function App() {
   };
 
   let individu = createIndividual(9);
-  let firstPopulation = createPopulation(2);
+  let firstPopulation = createPopulation(10);
 
   //fitness function
   const fitnessValue = (individu: any, priority: any): Individual => {
@@ -164,16 +166,16 @@ function App() {
         console.log("Encoding : ", population[index]);
       }
     }
-    return population;
+    return fitnessPopulation(population);
   };
 
   // mencari nilai fitness
   let populationFitness = fitnessPopulation(firstPopulation);
   // melakukan seleksi
-  let selectionResult = selection(populationFitness, 2);
+  let selectionResult = selection(populationFitness, 5);
 
   // melakukan crossover
-  let crossoverResult = crossover(selectionResult, 0.5, 1);
+  let crossoverResult = crossover(selectionResult, 0.5, 10);
   // populasi setelah crossover
   let mutationResult = mutation(crossoverResult, 0.2);
   console.log(mutationResult);
