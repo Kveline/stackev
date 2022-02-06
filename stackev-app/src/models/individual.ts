@@ -44,7 +44,7 @@ class Individual {
     return tech[0];
   }
 
-  get dbms() {
+  get dbms(): Technology {
     let listDbms = Object.values(dbms);
     let encodingDbms: number[] = this.encoding.slice(6, 9);
 
