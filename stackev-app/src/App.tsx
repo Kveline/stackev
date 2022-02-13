@@ -165,10 +165,13 @@ function App() {
 
   content = result.map((tech, index) => {
     return (
-      <div key={index} className="my-6">
-        <p>{tech.frontend.name}</p>
-        <p>{tech.backend.name}</p>
-        <p>{tech.dbms.name}</p>
+      <div
+        key={index}
+        className="my-6 bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/6"
+      >
+        <p className="font-semibold">{tech.frontend.name}</p>
+        <p className="font-semibold">{tech.backend.name}</p>
+        <p className="font-semibold">{tech.dbms.name}</p>
         <p>Score : {tech.fitness}</p>
       </div>
     );
@@ -431,7 +434,8 @@ function App() {
         </div>
         {/* end of parameter GA */}
       </div>
-      {content}
+
+      <div className="flex justify-center space-x-24 flex-wrap">{content}</div>
     </div>
   );
 }
