@@ -6,9 +6,14 @@ function App() {
   // TODO : bikin variabel total ouput techstach yang diinginkan
 
   // create individual
-  console.log(geneticAlgorithm(6, 10, 0.5, 0.1, 500));
+  const result = geneticAlgorithm(6, 10, 0.5, 0.1, 5);
+  console.log(result);
 
-  return <div className="App"></div>;
+  return (
+    <div className="App">
+      {result[0].backend.name} {result[0].frontend.name} {result[0].dbms.name}
+    </div>
+  );
 }
 
 export default App;
