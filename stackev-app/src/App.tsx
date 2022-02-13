@@ -60,6 +60,63 @@ function App() {
     (value: any) => value.trim() !== "" && +value > -1 && +value < 11
   );
 
+  // parameter GA
+  // total populasi
+  const {
+    value: enteredPopulation,
+    isValid: enteredPopulationIsValid,
+    hasError: populationInputHasError,
+    valueChangeHandler: populationChangedHandler,
+    inputBlurHandler: populationBlurHandler,
+  } = useInput(
+    (value: any) => value.trim() !== "" && +value > -1 && +value < 50
+  );
+
+  // total generasi
+  const {
+    value: enteredGeneration,
+    isValid: enteredGenerationIsValid,
+    hasError: generationInputHasError,
+    valueChangeHandler: generationChangedHandler,
+    inputBlurHandler: generationBlurHandler,
+  } = useInput(
+    (value: any) => value.trim() !== "" && +value > -1 && +value < 1001
+  );
+
+  // probabilitas crossover
+  const {
+    value: enteredPc,
+    isValid: enteredPcIsValid,
+    hasError: pcInputHasError,
+    valueChangeHandler: pcChangedHandler,
+    inputBlurHandler: pcBlurHandler,
+  } = useInput(
+    (value: any) => value.trim() !== "" && +value > -1 && +value < 1
+  );
+
+  // probabilitas mutasi
+  const {
+    value: enteredPm,
+    isValid: enteredPmIsValid,
+    hasError: pmInputHasError,
+    valueChangeHandler: pmChangedHandler,
+    inputBlurHandler: pmBlurHandler,
+  } = useInput(
+    (value: any) => value.trim() !== "" && +value > -1 && +value < 1
+  );
+
+  // total output
+  const {
+    value: enteredOutput,
+    isValid: enteredOutputIsValid,
+    hasError: outputInputHasError,
+    valueChangeHandler: outputChangedHandler,
+    inputBlurHandler: outputBlurHandler,
+  } = useInput(
+    (value: any) =>
+      value.trim() !== "" && +value > -1 && +value < +enteredPopulation
+  );
+
   // checking all input is valid
   let formIsValid = false;
 
@@ -68,14 +125,17 @@ function App() {
     enteredToolsSupportIsValid &&
     enteredCommunitySizeIsValid &&
     enteredCostLevelIsValid &&
-    enteredMaturityIsValid
+    enteredMaturityIsValid &&
+    enteredPopulationIsValid &&
+    enteredGenerationIsValid &&
+    enteredPcIsValid &&
+    enteredPmIsValid &&
+    enteredOutputIsValid
   ) {
     formIsValid = true;
   }
 
   const findTechstack = (event: React.FormEvent<EventTarget>): void => {
-    console.log(formIsValid);
-
     event.preventDefault();
     let userInput = new Priority({
       skalabilitas: +enteredSkalabilitas,
@@ -84,18 +144,22 @@ function App() {
       costLevel: +enteredCostLevel,
       maturity: +enteredMaturity,
     });
-    const result = geneticAlgorithm(userInput, 6, 10, 0.5, 0.1, 100);
+    const result = geneticAlgorithm(
+      userInput,
+      enteredOutput,
+      enteredPopulation,
+      enteredPc,
+      enteredPm,
+      enteredGeneration
+    );
     console.log(result);
   };
 
   // {result[0].backend.name} {result[0].frontend.name} {result[0].dbms.name}
   return (
-    <div className="App">
-      <div className="w-full max-w-xs m-auto mt-10">
-        <form
-          onSubmit={findTechstack}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-left"
-        >
+    <div className="App flex justify-center">
+      <div className="w-full max-w-xs m-auto mt-10 flex">
+        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-left">
           {/* input skalabilitas */}
           <div className="mb-4">
             <label
@@ -210,6 +274,129 @@ function App() {
             )}
           </div>
           {/* end of input maturity */}
+        </form>
+      </div>
+
+      {/* parameter GA */}
+      <div className="w-full max-w-xs m-auto mt-10">
+        <form
+          onSubmit={findTechstack}
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-left"
+        >
+          {/* input populasi */}
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
+              Total populasi
+            </label>
+            <input
+              onChange={populationChangedHandler}
+              value={enteredPopulation}
+              onBlur={populationBlurHandler}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="username"
+              type="text"
+              placeholder="Total populasi"
+            />
+            {populationInputHasError && (
+              <p className="text-rose-500 text-sm">Invalid input!</p>
+            )}
+          </div>
+          {/* end of input populasi */}
+
+          {/* input otal generasi */}
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
+              Total generasi
+            </label>
+            <input
+              onChange={generationChangedHandler}
+              value={enteredGeneration}
+              onBlur={generationBlurHandler}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="username"
+              type="text"
+              placeholder=" Total generasi"
+            />
+            {generationInputHasError && (
+              <p className="text-rose-500 text-sm">Invalid input!</p>
+            )}
+          </div>
+          {/* end of input total generasi */}
+
+          {/* input pc */}
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
+              Probabilitas crossover
+            </label>
+            <input
+              onChange={pcChangedHandler}
+              value={enteredPc}
+              onBlur={pcBlurHandler}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="username"
+              type="text"
+              placeholder="Probabilitas crossover"
+            />
+            {pcInputHasError && (
+              <p className="text-rose-500 text-sm">Invalid input!</p>
+            )}
+          </div>
+          {/* end of input pc */}
+
+          {/* input pm */}
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
+              Probabilitas mutasi
+            </label>
+            <input
+              onChange={pmChangedHandler}
+              value={enteredPm}
+              onBlur={pmBlurHandler}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="username"
+              type="text"
+              placeholder="Probabilitas mutasi"
+            />
+            {pmInputHasError && (
+              <p className="text-rose-500 text-sm">Invalid input!</p>
+            )}
+          </div>
+          {/* end of input pm */}
+
+          {/* input total output */}
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="username"
+            >
+              Total output
+            </label>
+            <input
+              onChange={outputChangedHandler}
+              value={enteredOutput}
+              onBlur={outputBlurHandler}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="username"
+              type="text"
+              placeholder="Total output"
+            />
+            {outputInputHasError && (
+              <p className="text-rose-500 text-sm">Invalid input!</p>
+            )}
+          </div>
+          {/* end of input total output */}
 
           <div className="mt-8">
             <button
@@ -222,6 +409,8 @@ function App() {
           </div>
         </form>
       </div>
+
+      {/* end of parameter GA */}
     </div>
   );
 }
