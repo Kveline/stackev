@@ -2,14 +2,8 @@ import Individual from "../models/individual";
 import Priority from "../models/priority";
 let rouletteWheelSelection = require("roulette-wheel-selection");
 
-// dummy input user
-const DUMMY_INPUT = new Priority({
-  skalabilitas: 4,
-  toolsSupport: 3,
-  communitySize: 5,
-  costLevel: 1,
-  maturity: 4,
-});
+// input user
+let USER_INPUT: Priority;
 
 var arraysMatch = (arr1: any[], arr2: any[]): boolean => {
   // Check if the arrays are the same length
@@ -82,7 +76,7 @@ const fitnessValue = (individu: any, priority: any): Individual => {
 // add fitness value to a population
 let fitnessPopulation = (population: Individual[]) =>
   population.map((individual) =>
-    fitnessValue(individual, DUMMY_INPUT.priorityScore)
+    fitnessValue(individual, USER_INPUT.priorityScore)
   );
 
 // selection, roultte wheel
@@ -188,12 +182,15 @@ const concatAndSort = (
 // sort fitness to a population
 
 export const geneticAlgorithm = (
+  userInput: Priority,
   totalOutput: number,
   totalPopulation: number,
   probabilityCrossover: number,
   probabilityMutation: number,
   totalGeneration: number
 ) => {
+  USER_INPUT = userInput;
+
   let bestIndividuals: Individual[] = [];
 
   for (let i = 0; i < totalGeneration; i++) {

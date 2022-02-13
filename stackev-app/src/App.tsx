@@ -1,4 +1,6 @@
+import React from "react";
 import "./App.css";
+import Priority from "./models/priority";
 import { geneticAlgorithm } from "./helper/GeneticAlgorithm";
 import useInput from "./hooks/useInput";
 
@@ -71,14 +73,29 @@ function App() {
     formIsValid = true;
   }
 
-  // create individual
-  const result = geneticAlgorithm(6, 10, 0.5, 0.1, 5);
-  console.log(result);
+  const findTechstack = (event: React.FormEvent<EventTarget>): void => {
+    console.log(formIsValid);
+
+    event.preventDefault();
+    let userInput = new Priority({
+      skalabilitas: +enteredSkalabilitas,
+      toolsSupport: +enteredToolsSupport,
+      communitySize: +enteredCommunitySize,
+      costLevel: +enteredCostLevel,
+      maturity: +enteredMaturity,
+    });
+    const result = geneticAlgorithm(userInput, 6, 10, 0.5, 0.1, 100);
+    console.log(result);
+  };
+
   // {result[0].backend.name} {result[0].frontend.name} {result[0].dbms.name}
   return (
     <div className="App">
       <div className="w-full max-w-xs m-auto mt-10">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-left">
+        <form
+          onSubmit={findTechstack}
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-left"
+        >
           {/* input skalabilitas */}
           <div className="mb-4">
             <label
@@ -94,7 +111,7 @@ function App() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="username"
               type="text"
-              placeholder="Username"
+              placeholder="Skalabilitas"
             />
             {skalabilitasInputHasError && (
               <p className="text-rose-500 text-sm">Invalid input!</p>
@@ -193,6 +210,16 @@ function App() {
             )}
           </div>
           {/* end of input maturity */}
+
+          <div className="mt-8">
+            <button
+              disabled={!formIsValid}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:cursor-not-allowed disabled:bg-gray-400"
+              type="submit"
+            >
+              Find
+            </button>
+          </div>
         </form>
       </div>
     </div>
