@@ -172,7 +172,7 @@ function App() {
     return (
       <div
         key={index}
-        className="my-6 bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/6 text-left"
+        className="my-6 bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/6 text-left flex flex-col justify-between"
       >
         <div className="mb-4">
           <p className="text-sm">Frontend</p>
