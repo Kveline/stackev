@@ -19,7 +19,7 @@ var arraysMatch = (arr1: any[], arr2: any[]): boolean => {
 
 const createIndividual = (length: number): Individual => {
   let encoding = new Array(length).fill(1).map(() => Math.round(Math.random()));
-  // default fitness
+  // initialy fitness
   let fitnessValue = 0;
   let individual = new Individual(encoding, fitnessValue);
   return individual;
@@ -92,7 +92,7 @@ const selection = (
   return selectedIndividuals;
 };
 
-// single point crossover, mainin array.slice
+// single point crossover
 const crossover = (
   population: Individual[],
   probabilityCrossover: number,
@@ -180,7 +180,6 @@ const concatAndSort = (
 };
 
 // sort fitness to a population
-
 export const geneticAlgorithm = (
   userInput: Priority,
   totalOutput: number,
@@ -215,7 +214,7 @@ export const geneticAlgorithm = (
       probabilityCrossover,
       totalPopulation
     );
-    // populasi setelah crossover
+    // populasi setelah mutasi
     let mutationResult = mutation(crossoverResult, probabilityMutation);
     // sort berdsarkan fitness terbaik
     mutationResult.sort((a, b) => (a.fitness > b.fitness ? -1 : 1));

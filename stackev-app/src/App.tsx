@@ -41,7 +41,7 @@ function App() {
     (value: any) => value.trim() !== "" && +value > -1 && +value < 11
   );
 
-  // input community size
+  // input cost level
   const {
     value: enteredCostLevel,
     isValid: enteredCostLevelIsValid,
@@ -72,7 +72,7 @@ function App() {
     valueChangeHandler: populationChangedHandler,
     inputBlurHandler: populationBlurHandler,
   } = useInput(
-    (value: any) => value.trim() !== "" && +value > -1 && +value < 50
+    (value: any) => value.trim() !== "" && +value > 1 && +value < 51
   );
 
   // total generasi
@@ -83,7 +83,7 @@ function App() {
     valueChangeHandler: generationChangedHandler,
     inputBlurHandler: generationBlurHandler,
   } = useInput(
-    (value: any) => value.trim() !== "" && +value > -1 && +value < 1001
+    (value: any) => value.trim() !== "" && +value > 0 && +value < 1001
   );
 
   // probabilitas crossover
@@ -94,7 +94,7 @@ function App() {
     valueChangeHandler: pcChangedHandler,
     inputBlurHandler: pcBlurHandler,
   } = useInput(
-    (value: any) => value.trim() !== "" && +value > -1 && +value < 1
+    (value: any) => value.trim() !== "" && +value > -1 && +value < 1.1
   );
 
   // probabilitas mutasi
@@ -105,7 +105,7 @@ function App() {
     valueChangeHandler: pmChangedHandler,
     inputBlurHandler: pmBlurHandler,
   } = useInput(
-    (value: any) => value.trim() !== "" && +value > -1 && +value < 1
+    (value: any) => value.trim() !== "" && +value > -1 && +value < 1.1
   );
 
   // total output
@@ -117,7 +117,7 @@ function App() {
     inputBlurHandler: outputBlurHandler,
   } = useInput(
     (value: any) =>
-      value.trim() !== "" && +value > -1 && +value < +enteredPopulation
+      value.trim() !== "" && +value > 0 && +value < +enteredPopulation
   );
 
   // checking all input is valid
@@ -159,6 +159,11 @@ function App() {
     );
 
     setResult(GA);
+    // scroll to bottom
+
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 1000);
 
     console.log(result, content);
   };
@@ -167,19 +172,44 @@ function App() {
     return (
       <div
         key={index}
-        className="my-6 bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/6"
+        className="my-6 bg-white shadow-md rounded px-8 pt-6 pb-8 w-1/6 text-left"
       >
-        <p className="font-semibold">{tech.frontend.name}</p>
-        <p className="font-semibold">{tech.backend.name}</p>
-        <p className="font-semibold">{tech.dbms.name}</p>
-        <p>Score : {tech.fitness}</p>
+        <div className="mb-4">
+          <p className="text-sm">Frontend</p>
+          <p className="font-bold text-lg">{tech.frontend.name}</p>
+        </div>
+
+        <div className="mb-4">
+          <p className="text-sm">Backend</p>
+          <p className="font-bold text-lg">{tech.backend.name}</p>
+        </div>
+
+        <div className="mb-8">
+          <p className="text-sm">DBMS</p>
+          <p className="font-bold text-lg">{tech.dbms.name}</p>
+        </div>
+
+        <div className="text-center">
+          <p className="text-sm">Score</p>
+          <p className="font-black text-2xl text-gray">{tech.fitness}</p>
+        </div>
       </div>
     );
   });
 
-  // {result[0].backend.name} {result[0].frontend.name} {result[0].dbms.name}
   return (
     <div className="App">
+      {/* judul */}
+      <div className="mt-14">
+        <h1 className="font-bold text-3xl">
+          Technology Stack Recommender System
+        </h1>
+        <p className="mt-4 font-medium text-2xl">
+          using <span className="font-bold">Genetic Algorithm</span>{" "}
+        </p>
+      </div>
+      {/* end of judul */}
+
       <div className="flex justify-center">
         <div className="w-full max-w-xs mt-10 flex">
           <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-left">
@@ -189,7 +219,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Skalabilitas
+                Skalabilitas (0-10)
               </label>
               <input
                 onChange={skalabilitasChangedHandler}
@@ -212,7 +242,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Tools Support
+                Tools Support (0-10)
               </label>
               <input
                 onChange={toolsSupportChangedHandler}
@@ -235,7 +265,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Community Size
+                Community Size (0-10)
               </label>
               <input
                 onChange={communitySizeChangedHandler}
@@ -258,7 +288,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Cost Level
+                Cost Level (0-10)
               </label>
               <input
                 onChange={costLevelChangedHandler}
@@ -281,7 +311,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Maturity
+                Maturity (0-10)
               </label>
               <input
                 onChange={maturityChangedHandler}
@@ -299,7 +329,6 @@ function App() {
             {/* end of input maturity */}
           </form>
         </div>
-
         {/* parameter GA */}
         <div className="w-full max-w-xs mt-10">
           <form
@@ -312,7 +341,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Total populasi
+                Total populasi (2-50)
               </label>
               <input
                 onChange={populationChangedHandler}
@@ -335,7 +364,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Total generasi
+                Total generasi (1-1000)
               </label>
               <input
                 onChange={generationChangedHandler}
@@ -358,7 +387,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Probabilitas crossover
+                Probabilitas crossover (0-1)
               </label>
               <input
                 onChange={pcChangedHandler}
@@ -381,7 +410,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Probabilitas mutasi
+                Probabilitas mutasi (0-1)
               </label>
               <input
                 onChange={pmChangedHandler}
@@ -404,7 +433,7 @@ function App() {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="username"
               >
-                Total output
+                Total output (&lt; populasi)
               </label>
               <input
                 onChange={outputChangedHandler}
