@@ -163,7 +163,7 @@ function App() {
 
     setTimeout(() => {
       window.scrollTo(0, document.body.scrollHeight);
-    }, 1000);
+    }, 200);
 
     console.log(result, content);
   };
@@ -213,6 +213,11 @@ function App() {
       <div className="flex justify-center">
         <div className="w-full max-w-xs mt-10 flex">
           <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-left">
+            {/* judul */}
+            <h2 className="mb-4 pb-4 font-bold text-xl border-b-2 border-gray-700">
+              Nilai Prioritas <br /> Atribut
+            </h2>
+            {/* end of judul */}
             {/* input skalabilitas */}
             <div className="mb-4">
               <label
@@ -335,6 +340,11 @@ function App() {
             onSubmit={findTechstack}
             className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-left"
           >
+            {/* judul */}
+            <h2 className="mb-4 pb-4 font-bold text-xl border-b-2 border-gray-700">
+              Parameter Algoritma Genetika
+            </h2>
+            {/* end of judul */}
             {/* input populasi */}
             <div className="mb-4">
               <label
